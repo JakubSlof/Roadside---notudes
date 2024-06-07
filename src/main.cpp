@@ -42,6 +42,7 @@ Side side = REDSIDE;
 
 
 bool baterry_loaded = false;
+bool skip_baterries = false;
 
 BoxColor ReciveData()
 {
@@ -89,6 +90,19 @@ void ColisionDetector(){
 }
 
 void EnemyStandingInFront(){
+  int time = 0;
+  while (time <30)
+  {
+    delay(1000);
+    time += 1000;
+  }
+  if(Box_1_c != IDK){
+    //do nothing
+  }
+  if( Box_1_c == IDK){
+    skip_baterries = true;
+
+  }
 
 }
 
@@ -183,6 +197,7 @@ void setup()
     delay(10);
   }
   std::thread t1(ColisionDetector);
+  std::thread t2(EnemyStandingInFront);
   // startovaci tlacitko
   while (true)
   {
@@ -193,6 +208,7 @@ void setup()
 
     delay(10);
   }
+ // t1.~thread();
 
 
   ///////////////////////////////////////////////////////////////////////
@@ -379,7 +395,7 @@ void setup()
     //TurnLeft(1);
 
     GetRestBoxColor();
-
+    
     if (Box_8_c == RED)
     {
       Straight(1000, Baterry_6 - currenrt_x_pos, 5000);
@@ -488,6 +504,7 @@ void setup()
     // konec ifu podle strany hriste
   }
   t1.join();
+  t2.join();
 }
 
 void loop()
