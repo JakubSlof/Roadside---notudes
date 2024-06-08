@@ -43,6 +43,7 @@ Side side = REDSIDE;
 
 bool baterry_loaded = false;
 bool skip_baterries = false;
+bool done = false;
 
 BoxColor ReciveData()
 {
@@ -69,19 +70,44 @@ BoxColor ReciveData()
   return box;
 }
 void ColisionDetector(){
+  int distance_front_us = 0;
+  int distance_back_us = 0;
+  int f1 = 0;
+  int f2 = 0;
+  int f3 = 0;
+  int f4 = 0;
+  int b1 = 0;
+  int b2 = 0;
+  int b3 = 0;
+  int b4 = 0;
+
+
+    
+  
   while (true)
   {
-    if (man.ultrasound(0).measure() > 0 && man.ultrasound(0).measure() < 400)
+
+    f1 = man.ultrasound(0).measure();
+    b1 = man.ultrasound(1).measure();
+    f2 = man.ultrasound(0).measure();
+    b2 = man.ultrasound(1).measure();
+    f3 = man.ultrasound(0).measure();
+    b3 = man.ultrasound(1).measure();
+    f4 = man.ultrasound(0).measure();
+    b4 = man.ultrasound(1).measure();
+    distance_front_us = (f1 + f2 + f3 + f4) / 4;
+    distance_back_us = (b1 + b2 + b3 + b4) / 4;
+    if (distance_front_us > 0 && distance_front_us < 300)
     {
       enemy = FRONT;
      // Serial.println("enemy front");
     }
-    if (man.ultrasound(1).measure() > 0 && man.ultrasound(1).measure() < 400)
+    if (distance_back_us > 0 && distance_back_us < 300)
     {
       enemy = BACK;
       //Serial.println("enemy back");
     }
-    if(man.ultrasound(1).measure() >= 400 && man.ultrasound(0).measure() >= 400)
+    if(distance_back_us >= 300 && distance_front_us >= 300)
     {
       enemy = NO;
       //Serial.println("no enemy");
@@ -161,19 +187,19 @@ void setup()
 
 
 
-  // while (true)
-  // {
-  //   if (Serial.available() > 0)
-  //   {
-  //     String data = Serial.readStringUntil('\n');
-  //     if (data == "ready")
-  //     {
-  //       man.leds().green(true);
-  //       break;
-  //     }
-  //   }
-  //   delay(10);
-  // }
+  while (true)
+  {
+    if (Serial.available() > 0)
+    {
+      String data = Serial.readStringUntil('\n');
+      if (data == "ready")
+      {
+        man.leds().green(true);
+        break;
+      }
+    }
+    delay(10);
+  }
 
   while (true)
   {
@@ -197,7 +223,7 @@ void setup()
     delay(10);
   }
   std::thread t1(ColisionDetector);
-  std::thread t2(EnemyStandingInFront);
+ // std::thread t2(EnemyStandingInFront);
   // startovaci tlacitko
   while (true)
   {
@@ -227,22 +253,30 @@ void setup()
     // }
     
 
-    Straight(1000, Box_8, 15000);
+    Straight(1000, 630, 15000);
+    StopMotors();
+    delay(1000);
     Serial.println("givecolor");
     delay(500);
     Box_8_c = ReciveData();
 
-    Straight(1000, Box_7 - Box_8, 15000);
+    Straight(1000, 200, 15000);
+      StopMotors();
+    delay(1000);
     Serial.println("givecolor");
     delay(500);
     Box_8_c = ReciveData();
 
-    Straight(1000, Box_6 - Box_7, 15000);
+    Straight(1000, 200, 15000);
+      StopMotors();
+    delay(1000);
     Serial.println("givecolor");
     delay(500);
     Box_7_c = ReciveData();
 
-    Straight(1000, Box_5 - Box_6, 15000);
+    Straight(1000, 200, 15000);
+      StopMotors();
+    delay(1000);
     Serial.println("givecolor");
     delay(500);
     Box_6_c = ReciveData();
@@ -298,7 +332,7 @@ void setup()
       man.stupidServo(0).setPosition(-2); // 90 deg left
       delay(1000);
       man.stupidServo(1).setPosition(1.4);
-      man.stupidServo(2).disable(); // pozice magnetu pro brani baterek
+      man.stupidServo(1).disable(); // pozice magnetu pro brani baterek
       delay(1000);
 
       MoveToGrabBaterry();
@@ -333,13 +367,14 @@ void setup()
     }
 
     BackwardUntillWall();
-    Straight(1000, 150, 12000);
+    Straight(1000, 450, 12000);
     StopMotors();
     Turn(90);
     BackwardUntillWall();
-    klepeto.Move(open);
-    Straight(1000, 800, 13000);
+    //klepeto.Move(open);
+    Straight(1000, 1200, 13000);
     StopMotors();
+    BackwardUntillWall();
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -395,7 +430,7 @@ void setup()
     //TurnLeft(1);
 
     GetRestBoxColor();
-    
+
     if (Box_8_c == RED)
     {
       Straight(1000, Baterry_6 - currenrt_x_pos, 5000);
@@ -497,15 +532,17 @@ void setup()
     TurnLeft(90);
     BackwardUntillWall();
     //klepeto.Move(open);
-    Straight(1000, 800, 3000);
+    Straight(1000, 1200, 3000);
     StopMotors();
+    BackwardUntillWall();
 
    
     // konec ifu podle strany hriste
   }
   t1.join();
-  t2.join();
+  //t2.join();
 }
+
 
 void loop()
 {
