@@ -253,28 +253,30 @@ void setup()
     // }
     
 
-    Straight(1000, 630, 15000);
+    Straight(1000, 620, 5000);
     StopMotors();
     delay(1000);
     Serial.println("givecolor");
     delay(500);
     Box_8_c = ReciveData();
 
-    Straight(1000, 200, 15000);
+    Straight(1000, 200, 5000);
       StopMotors();
     delay(1000);
+    TurnLeft(1);
     Serial.println("givecolor");
     delay(500);
     Box_8_c = ReciveData();
 
-    Straight(1000, 200, 15000);
+    Straight(1000, 200, 5000);
       StopMotors();
+      TurnLeft(1);
     delay(1000);
     Serial.println("givecolor");
     delay(500);
     Box_7_c = ReciveData();
 
-    Straight(1000, 200, 15000);
+    Straight(1000, 200, 5000);
       StopMotors();
     delay(1000);
     Serial.println("givecolor");
@@ -286,6 +288,7 @@ void setup()
     if (Box_8_c == BLUE)
     {
       Straight(1000, Baterry_6 - currenrt_x_pos, 15000);
+      StopMotors();
 
       man.stupidServo(0).setPosition(-2); // 90 deg left
       delay(1000);
@@ -300,13 +303,16 @@ void setup()
       man.stupidServo(0).setPosition(2); // otoci se ramenem na drohou stranu
       delay(1000);
 
-      Backward(1000, currenrt_x_pos - Box_8);
+      Backward(1000, currenrt_x_pos - Box_8-100);
+      StopMotors();
       man.stupidServo(2).setPosition(-2);
+      delay(1000);
     }
 
     if (Box_7_c == BLUE)
     {
       Straight(1000, Baterry_6 - currenrt_x_pos, 15000);
+      StopMotors();
 
       man.stupidServo(0).setPosition(-2); // 90 deg left
       delay(1000);
@@ -321,13 +327,16 @@ void setup()
       man.stupidServo(0).setPosition(2); // otoci se ramenem na drohou stranu
       delay(1000);
 
-      Backward(1000, currenrt_x_pos - Box_7);
+      Backward(1000, currenrt_x_pos - Box_7-100);
+      StopMotors();
       man.stupidServo(2).setPosition(-2);
+      delay(1000);
     }
 
     if (Box_6_c == BLUE)
     {
       Straight(1000, Baterry_6 - currenrt_x_pos, 15000);
+      StopMotors();
 
       man.stupidServo(0).setPosition(-2); // 90 deg left
       delay(1000);
@@ -342,12 +351,15 @@ void setup()
       man.stupidServo(0).setPosition(2); // otoci se ramenem na drohou stranu
       delay(1000);
 
-      Backward(1000, currenrt_x_pos - Box_6);
+      Backward(1000, currenrt_x_pos - Box_6-100);
+      StopMotors();
       man.stupidServo(2).setPosition(-2);
+      delay(1000);
     }
     if (Box_5_c == BLUE)
     {
       Straight(1000, Baterry_6 - currenrt_x_pos, 15000);
+      StopMotors();
 
       man.stupidServo(0).setPosition(-2); // 90 deg left
       delay(1000);
@@ -362,8 +374,10 @@ void setup()
       man.stupidServo(0).setPosition(2); // otoci se ramenem na drohou stranu
       delay(1000);
 
-      Backward(1000, currenrt_x_pos - Box_5);
+      Backward(1000, currenrt_x_pos - Box_5-100);
+      StopMotors();
       man.stupidServo(2).setPosition(-2);
+      delay(1000);
     }
 
     BackwardUntillWall();
@@ -372,9 +386,14 @@ void setup()
     Turn(90);
     BackwardUntillWall();
     //klepeto.Move(open);
-    Straight(1000, 1200, 13000);
+    Straight(1000, 1800, 13000);
     StopMotors();
     BackwardUntillWall();
+    Straight(1000,500,5000);
+    StopMotors();
+    Turn(90);
+    Straight(1000,500,5000);
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -532,9 +551,13 @@ void setup()
     TurnLeft(90);
     BackwardUntillWall();
     //klepeto.Move(open);
-    Straight(1000, 1200, 3000);
+    Straight(1000, 1800, 3000);
     StopMotors();
     BackwardUntillWall();
+    Straight(1000,500,5000);
+    StopMotors();
+    TurnLeft(90);
+    Straight(1000,500,5000);
 
    
     // konec ifu podle strany hriste
