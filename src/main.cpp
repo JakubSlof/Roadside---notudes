@@ -572,7 +572,7 @@ std::thread t2 (Timer);
     // konec ifu podle strany hriste
   }
   t1.join();
-  //t2.join();
+  t2.join();
 }
 
 
