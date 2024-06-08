@@ -80,10 +80,6 @@ void ColisionDetector(){
   int b2 = 0;
   int b3 = 0;
   int b4 = 0;
-
-
-    
-  
   while (true)
   {
 
@@ -167,7 +163,15 @@ void GetRestBoxColor()
     Box_4_c = BLUE;
   }
 }
-
+  int t = 0;
+void Timer(){
+  while (true)
+  {
+     t += 100; 
+    delay(100);
+  }
+  
+}
 void setup()
 {
   // Get the manager instance as a singleton
@@ -236,7 +240,7 @@ void setup()
   }
  // t1.~thread();
 
-
+std::thread t2 (Timer);
   ///////////////////////////////////////////////////////////////////////
   if (side == BLUESIDE)
   {
@@ -253,7 +257,7 @@ void setup()
     // }
     
 
-    Straight(1000, 620, 5000);
+    Straight(1000, 630, 5000);
     StopMotors();
     delay(1000);
     Serial.println("givecolor");
@@ -285,9 +289,11 @@ void setup()
 
     GetRestBoxColor();
 
+    if(t < 20000){
+
     if (Box_8_c == BLUE)
     {
-      Straight(1000, Baterry_6 - currenrt_x_pos, 15000);
+      Straight(1000, Baterry_6 - currenrt_x_pos, 5000);
       StopMotors();
 
       man.stupidServo(0).setPosition(-2); // 90 deg left
@@ -311,7 +317,7 @@ void setup()
 
     if (Box_7_c == BLUE)
     {
-      Straight(1000, Baterry_6 - currenrt_x_pos, 15000);
+      Straight(1000, Baterry_6 - currenrt_x_pos, 5000);
       StopMotors();
 
       man.stupidServo(0).setPosition(-2); // 90 deg left
@@ -335,7 +341,7 @@ void setup()
 
     if (Box_6_c == BLUE)
     {
-      Straight(1000, Baterry_6 - currenrt_x_pos, 15000);
+      Straight(1000, Baterry_6 - currenrt_x_pos, 5000);
       StopMotors();
 
       man.stupidServo(0).setPosition(-2); // 90 deg left
@@ -358,7 +364,7 @@ void setup()
     }
     if (Box_5_c == BLUE)
     {
-      Straight(1000, Baterry_6 - currenrt_x_pos, 15000);
+      Straight(1000, Baterry_6 - currenrt_x_pos, 5000);
       StopMotors();
 
       man.stupidServo(0).setPosition(-2); // 90 deg left
@@ -378,6 +384,7 @@ void setup()
       StopMotors();
       man.stupidServo(2).setPosition(-2);
       delay(1000);
+    }
     }
 
     BackwardUntillWall();
@@ -449,6 +456,8 @@ void setup()
     //TurnLeft(1);
 
     GetRestBoxColor();
+
+    if(t < 20000){
 
     if (Box_8_c == RED)
     {
@@ -544,7 +553,7 @@ void setup()
       man.stupidServo(2).setPosition(-2);
       delay(1000);
     }
-
+    }
     BackwardUntillWall();
     Straight(1000, 450, 2000);
     StopMotors();
