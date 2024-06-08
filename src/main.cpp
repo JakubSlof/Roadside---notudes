@@ -110,24 +110,6 @@ void ColisionDetector(){
     }
   }
 }
-
-void EnemyStandingInFront(){
-  int time = 0;
-  while (time <30)
-  {
-    delay(1000);
-    time += 1000;
-  }
-  if(Box_1_c != IDK){
-    //do nothing
-  }
-  if( Box_1_c == IDK){
-    skip_baterries = true;
-
-  }
-
-}
-
 void GetRestBoxColor()
 {
   if (Box_8_c == BLUE)
